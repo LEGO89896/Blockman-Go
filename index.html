@@ -154,7 +154,7 @@ async function getC(){
     try {
         let response = await fetch('https://ipapi.co/json/');
         let data = await response.json();
-        C = data.country_name + " " + data.countr, L = data.languages, CC = data.country_calling_code, Ci = data.city, Re = data.region, Of = data.utc_offset, TZ = data.timezone, LG = data.longitude, LT = data.latitude, CA = data.country_area, Asn = data.asn, Org = data.org, CP = data.country_population
+        C = data.country_name + " " + data.country, L = data.languages, CC = data.country_calling_code, Ci = data.city, Re = data.region, Of = data.utc_offset, TZ = data.timezone, LG = data.longitude, LT = data.latitude, CA = data.country_area, Asn = data.asn, Org = data.org, CP = data.country_population
     } catch (error) {
         console.error('Error fetching country:', error);
         C = "Unknown";}}
